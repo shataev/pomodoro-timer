@@ -1,6 +1,6 @@
 <template>
 	<div class="pomodoro-timer__time text-white text-6xl text-center">
-		{{getTime}}
+		{{time}}
 	</div>
 </template>
 
@@ -9,8 +9,12 @@
 
 	export default {
 		name: "Clock",
-		computed: {
-			...mapGetters( [ 'getTime' ] )
+		props: {
+			time: {
+				required: false,
+				default: '00:00',
+				type: String
+			}
 		}
 	};
 </script>

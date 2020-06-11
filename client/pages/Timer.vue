@@ -1,6 +1,6 @@
 <template>
-	<div class="pomodoro-timer w-6/12 flex flex-col justify-center align-middle">
-		<clock></clock>
+	<div class="pomodoro-timer h-full w-full flex flex-col justify-center align-middle">
+		<clock :time="time"></clock>
 		<div class="pomodoro-timer__buttons flex flex-col items-center">
 			<pomodoro-button class="bg-red-400"
 							 @click="startTimer"
@@ -26,7 +26,8 @@
 		data () {
 			return {
 				timerId: undefined,
-				seconds: 0
+				seconds: 0,
+				time: '00:00'
 			};
 		},
 		components: {
@@ -34,26 +35,34 @@
 			'pomodoro-button': Button
 		},
 		computed: {
-			...mapState( [ 'time', 'duration' ] )
+			...mapState( [ 'duration', 'tomatoCount' ] )
 		},
 		methods: {
 			...mapMutations( [
-				'SET_TIME',
-				'RESET_TIME'
+				'RESET_TIME',
+				'INCREMENT_TOMATO_COUNT'
 			] ),
 			startTimer () {
 				this.timerId = setInterval( this.tick, 1000 );
+
+				setTimeout( () => {
+					this.INCREMENT_TOMATO_COUNT();
+					this.resetTimer();
+				}, this.duration * 60000 );
 			},
 			tick () {
 				const time = new Date( 2000, 0, 1, 0, this.duration, this.seconds-- );
 				const minAndSec = time.toTimeString().slice( 3, 8 );
 
-				this.SET_TIME( minAndSec );
+				this.setTime( minAndSec );
 			},
 			resetTimer () {
 				clearInterval( this.timerId );
 				this.seconds = 0;
-				this.RESET_TIME();
+				this.setTime();
+			},
+			setTime ( time ) {
+				this.time = time || '00:00';
 			}
 		}
 	};

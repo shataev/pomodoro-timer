@@ -7,8 +7,8 @@ import getters from './getters';
 Vue.use( Vuex );
 
 const initialState = {
-	duration: 30,
-	time: '00:00'
+	duration: 1,
+	tomatoCount: 0
 };
 
 export default new Vuex.Store( {
