@@ -3,9 +3,13 @@
 		<clock :time="time"></clock>
 		<div class="pomodoro-timer__buttons flex flex-col items-center">
 			<pomodoro-button class="bg-red-400"
+							 :class="{'is-disabled': !!timerId && !isBreakTime}"
 							 @click="startTimer"
 							 :label="'Start tomato'"></pomodoro-button>
-			<pomodoro-button class="bg-gray-600" :label="'Take a break'"></pomodoro-button>
+			<pomodoro-button class="bg-gray-600"
+							 :class="{'is-disabled': !!timerId && isBreakTime}"
+							 @click="startBreakTimer"
+							 :label="'Take a break'"></pomodoro-button>
 			<pomodoro-button class="bg-yellow-600"
 							 @click="resetTimer"
 							 :label="'Reset'"></pomodoro-button>
@@ -26,6 +30,7 @@
 		data () {
 			return {
 				timerId: undefined,
+				isBreakTime: false,
 				seconds: 0,
 				time: '00:00'
 			};
@@ -35,23 +40,41 @@
 			'pomodoro-button': Button
 		},
 		computed: {
-			...mapState( [ 'duration', 'tomatoCount' ] )
+			...mapState( [ 'duration', 'tomatoCount', 'breakDuration' ] ),
+			timerDuration () {
+				return !this.isBreakTime ? this.duration : this.breakDuration;
+			}
 		},
 		methods: {
 			...mapMutations( [
 				'RESET_TIME',
 				'INCREMENT_TOMATO_COUNT'
 			] ),
+			startBreakTimer () {
+
+				this.isBreakTime = true;
+
+				this.startTimer();
+			},
 			startTimer () {
+				this.resetTimer();
+
 				this.timerId = setInterval( this.tick, 1000 );
 
 				setTimeout( () => {
-					this.INCREMENT_TOMATO_COUNT();
+					if ( !this.timerId ) {
+						return false;
+					}
+
+					if ( !this.isBreakTime ) {
+						this.INCREMENT_TOMATO_COUNT();
+					}
+
 					this.resetTimer();
-				}, this.duration * 60000 );
+				}, this.timerDuration * 60000 );
 			},
 			tick () {
-				const time = new Date( 2000, 0, 1, 0, this.duration, this.seconds-- );
+				const time = new Date( 2000, 0, 1, 0, this.timerDuration, this.seconds-- );
 				const minAndSec = time.toTimeString().slice( 3, 8 );
 
 				this.setTime( minAndSec );
@@ -59,6 +82,8 @@
 			resetTimer () {
 				clearInterval( this.timerId );
 				this.seconds = 0;
+				this.isBreakTime = false;
+				this.timerId = undefined;
 				this.setTime();
 			},
 			setTime ( time ) {

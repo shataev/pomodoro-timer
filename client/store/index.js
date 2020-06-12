@@ -7,7 +7,8 @@ import getters from './getters';
 Vue.use( Vuex );
 
 const initialState = {
-	duration: 1,
+	duration: 30,
+	breakDuration: 5,
 	tomatoCount: 0
 };
 
