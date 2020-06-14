@@ -3,18 +3,24 @@ import Vuex from 'vuex';
 import mutations from './mutations';
 import actions from './actions';
 import getters from './getters';
+import timer from './timer/index';
 
 Vue.use( Vuex );
 
-const initialState = {
-	duration: 30,
-	breakDuration: 5,
-	tomatoCount: 0
-};
+const initialState = {};
 
 export default new Vuex.Store( {
 	state: initialState,
 	mutations,
 	getters,
-	actions
+	actions,
+	modules: {
+		timer
+	}
 } );
+
+
+
+
+
+

@@ -10,5 +10,9 @@ module.exports = {
 
 		config.resolve.alias
 			.set( '@', path.join( __dirname, './client' ) );
+	},
+	devServer: {
+		port: process.env.PORT,
+		proxy: `http://localhost:${process.env.SERVER_PORT}`
 	}
 };

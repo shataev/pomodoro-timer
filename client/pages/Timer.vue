@@ -1,14 +1,14 @@
 <template>
 	<div class="pomodoro-timer h-full w-full flex flex-col justify-center align-middle">
-		<clock :time="time"></clock>
+		<clock :time="timeLeft"></clock>
 		<div class="pomodoro-timer__buttons flex flex-col items-center">
 			<pomodoro-button class="bg-red-400"
-							 :class="{'is-disabled': !!timerId && !isBreakTime}"
-							 @click="startTimer"
+							 :class="{'is-disabled': false}"
+							 @click="startTimer('work')"
 							 :label="'Start tomato'"></pomodoro-button>
 			<pomodoro-button class="bg-gray-600"
-							 :class="{'is-disabled': !!timerId && isBreakTime}"
-							 @click="startBreakTimer"
+							 :class="{'is-disabled': false}"
+							 @click="startTimer('break')"
 							 :label="'Take a break'"></pomodoro-button>
 			<pomodoro-button class="bg-yellow-600"
 							 @click="resetTimer"
@@ -23,72 +23,26 @@
 <script>
 	import Clock from '@/components/Clock';
 	import Button from '@/components/Button';
-	import { mapState, mapMutations } from 'vuex';
+	import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
+	import { START_TIMER, RESET_TIMER } from '../store/timer/actions';
 
 	export default {
 		name: "Timer",
-		data () {
-			return {
-				timerId: undefined,
-				isBreakTime: false,
-				seconds: 0,
-				time: '00:00'
-			};
-		},
 		components: {
 			Clock,
 			'pomodoro-button': Button
 		},
 		computed: {
-			...mapState( [ 'duration', 'tomatoCount', 'breakDuration' ] ),
-			timerDuration () {
-				return !this.isBreakTime ? this.duration : this.breakDuration;
-			}
+			...mapGetters( 'timer', {
+				timeLeft: 'getTimeLeftStr'
+			} ),
 		},
 		methods: {
-			...mapMutations( [
-				'RESET_TIME',
-				'INCREMENT_TOMATO_COUNT'
-			] ),
-			startBreakTimer () {
-
-				this.isBreakTime = true;
-
-				this.startTimer();
-			},
-			startTimer () {
-				this.resetTimer();
-
-				this.timerId = setInterval( this.tick, 1000 );
-
-				setTimeout( () => {
-					if ( !this.timerId ) {
-						return false;
-					}
-
-					if ( !this.isBreakTime ) {
-						this.INCREMENT_TOMATO_COUNT();
-					}
-
-					this.resetTimer();
-				}, this.timerDuration * 60000 );
-			},
-			tick () {
-				const time = new Date( 2000, 0, 1, 0, this.timerDuration, this.seconds-- );
-				const minAndSec = time.toTimeString().slice( 3, 8 );
-
-				this.setTime( minAndSec );
-			},
-			resetTimer () {
-				clearInterval( this.timerId );
-				this.seconds = 0;
-				this.isBreakTime = false;
-				this.timerId = undefined;
-				this.setTime();
-			},
-			setTime ( time ) {
-				this.time = time || '00:00';
-			}
+			...mapActions( 'timer', {
+					startTimer: START_TIMER,
+					resetTimer: RESET_TIMER
+				}
+			)
 		}
 	};
 </script>
