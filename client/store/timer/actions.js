@@ -7,7 +7,12 @@ export default {
 	//Запускает таймер и через секунду обновляет оставшееся до его окончания время.
 	[ START_TIMER ]: function ( { state, commit, dispatch }, timerType ) {
 
-		//Длительность таймера  секундах
+		//Если есть запущенный таймер, сбрасываем его
+		if ( !!state.timer.id ) {
+			dispatch( RESET_TIMER );
+		}
+
+		//Длительность таймера в секундах
 		const durationSec = state.duration[ timerType ] * 60;
 
 		//Каждую секунду оставшееся время уменьшается на единицу

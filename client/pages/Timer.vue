@@ -3,11 +3,11 @@
 		<clock :time="timeLeft"></clock>
 		<div class="pomodoro-timer__buttons flex flex-col items-center">
 			<pomodoro-button class="bg-red-400"
-							 :class="{'is-disabled': false}"
+							 :class="{'is-disabled': currentTimerType === 'work'}"
 							 @click="startTimer('work')"
 							 :label="'Start tomato'"></pomodoro-button>
 			<pomodoro-button class="bg-gray-600"
-							 :class="{'is-disabled': false}"
+							 :class="{'is-disabled':  currentTimerType === 'break'}"
 							 @click="startTimer('break')"
 							 :label="'Take a break'"></pomodoro-button>
 			<pomodoro-button class="bg-yellow-600"
@@ -23,7 +23,7 @@
 <script>
 	import Clock from '@/components/Clock';
 	import Button from '@/components/Button';
-	import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
+	import { mapGetters, mapActions } from 'vuex';
 	import { START_TIMER, RESET_TIMER } from '../store/timer/actions';
 
 	export default {
@@ -34,7 +34,8 @@
 		},
 		computed: {
 			...mapGetters( 'timer', {
-				timeLeft: 'getTimeLeftStr'
+				timeLeft: 'getTimeLeftStr',
+				currentTimerType: 'getCurrentTimerType'
 			} ),
 		},
 		methods: {
