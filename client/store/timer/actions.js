@@ -2,6 +2,7 @@ export const START_TIMER = 'START_TIMER';
 export const RESET_TIMER = 'RESET_TIMER';
 export const DECREMENT_TIME_LEFT = 'DECREMENT_TIME_LEFT';
 export const INCREMENT_TIMER_COUNT = 'INCREMENT_TIMER_COUNT';
+import { playSound } from '../../helpers';
 
 export default {
 	//Запускает таймер и через секунду обновляет оставшееся до его окончания время.
@@ -47,6 +48,9 @@ export default {
 		}
 
 		commit( RESET_TIMER );
+
+		playSound(state.sound.end)
+
 	},
 	[ INCREMENT_TIMER_COUNT ]: function ( { commit } ) {
 		commit( INCREMENT_TIMER_COUNT );

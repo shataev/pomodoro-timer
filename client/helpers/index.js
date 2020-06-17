@@ -12,5 +12,15 @@ export const addStartingZero = number => {
 		numerStr += number;
 	}
 
-	return numerStr
+	return numerStr;
+};
+
+/**
+ * Однократно воспроизводит аудифайл. Принимает путь до этого файла в качестве аргумента
+ * @param soundUrl {String}
+ */
+export const playSound = soundUrl => {
+	const audio = new Audio( soundUrl );
+
+	audio.play();
 };
