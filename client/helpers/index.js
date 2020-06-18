@@ -15,12 +15,19 @@ export const addStartingZero = number => {
 	return numerStr;
 };
 
-/**
- * Однократно воспроизводит аудифайл. Принимает путь до этого файла в качестве аргумента
- * @param soundUrl {String}
- */
-export const playSound = soundUrl => {
-	const audio = new Audio( soundUrl );
 
-	audio.play();
+/**
+ * Запрашивает файл с сервера по URL. Возвращает его в виде ArrayBuffer для дальнейшего использования
+ * в качестве источника аудио
+ * @param fileUrl {String}
+ * @returns {ArrayBuffer}
+ */
+export const getAudioDataByUrl = async fileUrl => {
+	const response = await fetch( fileUrl );
+
+	if ( response.ok ) {
+		const arrayBuffer = await response.arrayBuffer();
+
+		return arrayBuffer;
+	}
 };

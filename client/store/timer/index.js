@@ -17,7 +17,7 @@ const initialState = {
 	//Количество полностью завершенных таймеров. Таймеры, остановленные по кнопке 'Reset' или 'Break' не учитываются
 	timerCount: 0,
 	sound: {
-		end: require('../../assets/audio/signal.mp3') //require - для корректной ссылки на файл в собрранном проекте
+		finish: require('../../assets/audio/signal.mp3') //require - для корректной ссылки на файл в собрранном проекте
 	}
 };
 
