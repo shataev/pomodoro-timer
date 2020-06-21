@@ -1,14 +1,17 @@
 <template>
-	<header class="page-header w-full h-12 flex justify-between px-2 pt-2 text-white">
-		<div class="page-header__logo">
-			<router-link to="/" class="logo__img flex w-3 h-3 bg-blue-700"></router-link>
-		</div>
+	<header class="page-header w-full flex justify-between p-4 text-white">
+		<router-link to="/" class="page-header__logo flex items-center text-xl">
+			<div class="logo__text">Tomat</div>
+			<div class="logo__img flex mx-1 w-3 h-3"></div>
+			<div class="logo__text">Timer</div>
+		</router-link>
 		<div class="page-header__buttons flex items-center">
 			<router-link to="/login"
-					class="page-header__button button-login mr-5 text-lg cursor-pointer hover:opacity-75">Sign
-				In</router-link>
+						 class="page-header__button button-login mr-5 text-lg cursor-pointer hover:opacity-75">Sign
+				In
+			</router-link>
 			<router-link to="register"
-					class="page-header__button register-button mr-5 text-lg cursor-pointer hover:opacity-75">Register
+						 class="page-header__button register-button text-lg cursor-pointer hover:opacity-75">Register
 			</router-link>
 		</div>
 	</header>
@@ -22,9 +25,9 @@
 
 <style scoped>
 	.logo__img {
-		width: 3em;
-		height: 3em;
-		background: url("../assets/images/tomato.png") no-repeat 0 0.3em;
+		width: 2em;
+		height: 2em;
+		background: url("../assets/images/tomato-colored.svg") no-repeat 0 0;
 		background-size: contain;
 	}
 </style>
