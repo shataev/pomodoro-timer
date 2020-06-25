@@ -15,6 +15,6 @@ export default {
 		state.timer.timeLeft -= 1;
 	},
 	[ INCREMENT_TIMER_COUNT ]: function ( state ) {
-		state.timerCount += 1;
+		state.completedTimersCount += 1;
 	}
 };

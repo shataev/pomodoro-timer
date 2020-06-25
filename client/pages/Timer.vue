@@ -15,7 +15,7 @@
 							 :label="'Reset'"></pomodoro-button>
 		</div>
 		<div class="pomodoro-timer__stats">
-
+			<completed-timers-count></completed-timers-count>
 		</div>
 	</div>
 </template>
@@ -23,20 +23,22 @@
 <script>
 	import Clock from '@/components/Clock';
 	import Button from '@/components/Button';
-	import { mapGetters, mapActions } from 'vuex';
+	import CompletedTimersCount from '@/components/CompletedTimersCount';
+	import { mapGetters, mapActions, mapState } from 'vuex';
 	import { START_TIMER, RESET_TIMER } from '../store/timer/actions';
 
 	export default {
 		name: "Timer",
 		components: {
 			Clock,
-			'pomodoro-button': Button
+			'pomodoro-button': Button,
+			CompletedTimersCount
 		},
 		computed: {
 			...mapGetters( 'timer', {
 				timeLeft: 'getTimeLeftStr',
-				currentTimerType: 'getCurrentTimerType'
-			} ),
+				currentTimerType: 'getCurrentTimerType',
+			} )
 		},
 		methods: {
 			...mapActions( 'timer', {
@@ -49,5 +51,8 @@
 </script>
 
 <style scoped>
-
+	.pomodoro-timer__stats {
+		display: flex;
+		justify-content: center;
+	}
 </style>
