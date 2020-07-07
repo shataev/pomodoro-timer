@@ -6,15 +6,14 @@ require( "dotenv" ).config( {
 	path: path.join( __dirname, "..", ".env.server" )
 } );
 
+//Routes
+const timersRouter = require( '@routes/v1/timers' );
 
-app.get( "/items", ( req, res ) => {
-	res.send( {
-		message: "It works!"
-	} );
-} );
+app.use( "/timers", timersRouter );
+//Routes end
 
 const port = process.env.PORT;
 
 app.listen( port, () => {
-	console.log( `Started on port ${port}`);
+	console.log( `Started on port ${port}` );
 } );
