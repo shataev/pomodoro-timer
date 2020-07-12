@@ -1,7 +1,7 @@
 const Express = require( 'express' );
-const BodyParser = require('body-parser');
+const BodyParser = require( 'body-parser' );
 const app = Express();
-const config = require('@config');
+const config = require( '@config' );
 
 app.use( BodyParser.json() );
 
@@ -17,8 +17,12 @@ mongoose.connect( config.databaseUrl, {
 
 //Routes
 const timersRouter = require( '@routes/v1/timers' );
+const authRouter = require( '@routes/v1/auth' );
 
 app.use( "/timers", timersRouter );
+app.use( "/auth", authRouter );
+
+const User = require( '@models/User' );
 //Routes end
 
 app.listen( config.port, () => {
