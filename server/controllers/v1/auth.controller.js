@@ -14,6 +14,7 @@ exports.register = async ( req, res ) => {
 
 		return res.status( 201 ).json( user );
 	} catch ( e ) {
+		console.log(e);
 		res.status( 400 ).send( { message: "Failed to register" } );
 	}
 };
