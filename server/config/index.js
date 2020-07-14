@@ -6,7 +6,7 @@ dotenv.config( {
 } );
 
 module.exports = {
-	databaseUrl: process.env.DATABASE_URL,
+	databaseUrl: process.env.NODE_ENV === 'test' ? process.env.DATABASE_URL_TEST : process.env.DATABASE_URL,
 	port: process.env.PORT || 8090,
 	jwtSecret: process.env.JWT_SECRET || 'OYaUca15gEIR7i70ZrIa'
 };

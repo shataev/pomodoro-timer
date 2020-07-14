@@ -25,8 +25,10 @@ app.use( "/auth", authRouter );
 const User = require( '@models/User' );
 //Routes end
 
-app.listen( config.port, () => {
-	console.log( `Started on port ${config.port}` );
-} );
+if ( process.env.NODE_ENV !== 'test' ) {
+	app.listen( config.port, () => {
+		console.log( `Started on port ${config.port}` );
+	} );
+}
 
 module.exports = app;
