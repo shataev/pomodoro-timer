@@ -3,8 +3,6 @@ const User = require( '@models/User' );
 exports.register = async ( req, res ) => {
 	const { name, email, password } = req.body;
 
-	console.log( name );
-
 	try {
 		const user = await User.create( {
 			name,
@@ -12,9 +10,15 @@ exports.register = async ( req, res ) => {
 			password
 		} );
 
-		return res.status( 201 ).json( user );
+		console.log('from controller ', user);
+
+		const token = await user.generateAuthToken();
+
+		return res
+			.status( 201 )
+			.header( 'authorization', `Bearer ${token}` )
+			.json( user );
 	} catch ( e ) {
-		console.log(e);
-		res.status( 400 ).send( { message: "Failed to register" } );
+		res.status( 400 ).send( { message: `Failed to register: ${e.errmsg}`, error: e } );
 	}
 };

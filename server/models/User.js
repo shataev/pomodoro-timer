@@ -1,5 +1,7 @@
 const Mongoose = require( 'mongoose' );
-const validator = require('validator');
+const validator = require( 'validator' );
+const jwt = require( 'jsonwebtoken' );
+const config = require( '@config' );
 const UserSchema = new Mongoose.Schema( {
 	name: {
 		type: String,
@@ -22,8 +24,24 @@ const UserSchema = new Mongoose.Schema( {
 		required: true,
 		trim: true,
 		minlength: 6
+	},
+	token: {
+		type: String
 	}
 } );
-const User = Mongoose.model( "User", UserSchema );
 
-module.exports = User;
+UserSchema.methods.generateAuthToken = async function () {
+	const token = jwt.sign(
+		{ _id: this._id.toHexString() },
+		config.jwtSecret
+	).toString();
+
+	this.token = token;
+
+	await this.save();
+
+	console.log('from model', this);
+	return token;
+};
+
+module.exports = Mongoose.model( "User", UserSchema );
