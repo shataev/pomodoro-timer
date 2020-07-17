@@ -40,8 +40,17 @@ UserSchema.methods.generateAuthToken = async function () {
 
 	await this.save();
 
-	console.log('from model', this);
+	console.log( 'from model', this );
 	return token;
+};
+
+UserSchema.statics.findByToken = async function ( token ) {
+	try {
+		const { _id } = jwt.verify( token, config.jwtSecret );
+		return this.findOne( { _id, token } );
+	} catch ( e ) {
+		throw err;
+	}
 };
 
 module.exports = Mongoose.model( "User", UserSchema );

@@ -10,7 +10,7 @@ exports.register = async ( req, res ) => {
 			password
 		} );
 
-		console.log('from controller ', user);
+		console.log( 'from controller ', user );
 
 		const token = await user.generateAuthToken();
 
@@ -22,3 +22,19 @@ exports.register = async ( req, res ) => {
 		res.status( 400 ).send( { message: `Failed to register: ${e.errmsg}`, error: e } );
 	}
 };
+
+exports.getUser = async ( req, res ) => {
+	let token;
+
+	try {
+		token = req.header( 'authorization' ).split( ' ' )[ 1 ];
+
+		const user = await User.findByToken( token );
+
+		res.send( { user } );
+	} catch ( e ) {
+		//401 - Authorization error
+		return res.status( 401 ).send( { message: 'Authorization error' } );
+	}
+};
+
