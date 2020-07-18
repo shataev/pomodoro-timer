@@ -15,7 +15,7 @@ module.exports = {
 					"@store": "./client/store",
 					"@components": "./client/components",
 					"@validators": "./server/validators",
-					"@middleware": "./server/middleware",
+					"@middlewares": "./server/middlewares",
 					"@pages": "./client/pages",
 					"@config": "./server/config",
 					"@controllers": "./server/controllers",
