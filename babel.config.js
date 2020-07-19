@@ -20,7 +20,8 @@ module.exports = {
 					"@config": "./server/config",
 					"@controllers": "./server/controllers",
 					"@routes": "./server/routes",
-					"@models": "./server/models"
+					"@models": "./server/models",
+					"@seeds": "./tests/seeds"
 				}
 			}
 		]
