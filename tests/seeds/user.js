@@ -4,22 +4,28 @@ const faker = require( 'faker' );
 const jwt = require( 'jsonwebtoken' );
 const config = require( '@config' );
 
+const createSeedUsers = ( count ) => {
+	let seedUsers = [];
 
-let seedUsers = [];
+	for ( let userCount = 0; userCount < count; userCount++ ) {
+		const userOneObjectId = new ObjectId();
 
-for ( let userCount = 0; userCount < 10; userCount++ ) {
-	const userOneObjectId = new ObjectId();
+		const seedUser = {
+			_id: userOneObjectId,
+			name: faker.name.firstName(),
+			email: faker.internet.email(),
+			password: faker.internet.password(),
+			token: jwt.sign( { _id: userOneObjectId }, config.jwtSecret )
+		};
 
-	const seedUser = {
-		_id: userOneObjectId,
-		name: faker.name.firstName(),
-		email: faker.internet.email(),
-		password: faker.internet.password(),
-		token: jwt.sign( { _id: userOneObjectId }, config.jwtSecret )
-	};
+		seedUsers.push( seedUser );
+	}
 
-	seedUsers.push( seedUser );
-}
+	return seedUsers;
+};
+
+const seedUsers = createSeedUsers( 2 );
+
 
 const populateUsers = async () => {
 	await User.deleteMany();
@@ -29,5 +35,6 @@ const populateUsers = async () => {
 
 module.exports = {
 	seedUsers,
-	populateUsers
+	populateUsers,
+	createSeedUsers
 };

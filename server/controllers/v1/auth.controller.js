@@ -10,8 +10,6 @@ exports.register = async ( req, res ) => {
 			password
 		} );
 
-		console.log( 'from controller ', user );
-
 		const token = await user.generateAuthToken();
 
 		return res

@@ -40,7 +40,6 @@ UserSchema.methods.generateAuthToken = async function () {
 
 	await this.save();
 
-	console.log( 'from model', this );
 	return token;
 };
 
