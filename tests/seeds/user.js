@@ -26,10 +26,12 @@ const createSeedUsers = ( count ) => {
 
 const seedUsers = createSeedUsers( 2 );
 
-
 const populateUsers = async () => {
 	await User.deleteMany();
-	await User.insertMany( seedUsers );
+
+	seedUsers.forEach( async seedUser => {
+		await new User( seedUser ).save();
+	} );
 };
 
 

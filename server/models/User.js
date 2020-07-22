@@ -2,6 +2,7 @@ const Mongoose = require( 'mongoose' );
 const validator = require( 'validator' );
 const jwt = require( 'jsonwebtoken' );
 const config = require( '@config' );
+const bcrypt = require( 'bcryptjs' );
 const UserSchema = new Mongoose.Schema( {
 	name: {
 		type: String,
@@ -27,6 +28,12 @@ const UserSchema = new Mongoose.Schema( {
 	},
 	token: {
 		type: String
+	},
+	createdAt: {
+		type: Date
+	},
+	updatedAt: {
+		type: Date
 	}
 } );
 
@@ -51,5 +58,19 @@ UserSchema.statics.findByToken = async function ( token ) {
 		throw err;
 	}
 };
+
+UserSchema.pre( 'save', async function ( next ) {
+	if ( this.isModified( 'password' ) ) {
+		try {
+			this.password = await bcrypt.hash( this.password, 8 );
+			this.createdAt = new Date();
+			next();
+		} catch ( err ) {
+			next( err );
+		}
+	} else {
+		next();
+	}
+} );
 
 module.exports = Mongoose.model( "User", UserSchema );

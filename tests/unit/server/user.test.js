@@ -1,4 +1,5 @@
 const expect = require( 'expect' );
+const bcrypt = require( 'bcryptjs' );
 const app = require( '@server' );
 const request = require( 'supertest' );
 const User = require( '@models/User' );
@@ -15,8 +16,6 @@ describe( 'GET/auth/user', () => {
 			.expect( 200 );
 
 		expect( res.body.user._id ).toBe( seedUsers[ 0 ]._id.toHexString() );
-
-		console.log('from GET')
 	} );
 
 	//Если пользователь не авторизован, т.е. в запросе нет заголовка 'Authorization',
@@ -46,6 +45,13 @@ describe( 'POST/auth/register', () => {
 
 		const doc = await User.findOne( { email } );
 		expect( doc ).toBeTruthy();
+
+		//Простая проверка того, что пароль сохраняемый пароль
+		//не равен паролю в базе, потому что последний должен быть захэширован
+		const isEqualPassword = await bcrypt.compare( password, doc.password );
+
+		expect( doc.password ).not.toBe( password );
+		expect( isEqualPassword ).toBe( true );
 	} );
 
 	//Пользователь с некорректными данными создаваться не должен
@@ -64,7 +70,7 @@ describe( 'POST/auth/register', () => {
 
 	//Новый пользователь с имейлом, который уже есть в базе создаваться не должен
 	it( 'Should not create a new user with duplicate email', async () => {
-		const user = await User.find()[0];
+		const user = await User.find()[ 0 ];
 
 		await request( app )
 			.post( '/auth/register' )
