@@ -21,6 +21,21 @@ exports.register = async ( req, res ) => {
 	}
 };
 
+exports.login = async ( req, res ) => {
+	const { email, password } = req.body;
+
+	try {
+		const user = await User.findOneByCredentials( email, password );
+		const token = await user.generateAuthToken();
+
+		res
+			.header( 'authorization', `Bearer ${token}` )
+			.send( { user } );
+	} catch ( err ) {
+		res.status( 400 ).send( err );
+	}
+};
+
 exports.getUser = async ( req, res ) => {
 	res.send( { user: req.user } );
 };
