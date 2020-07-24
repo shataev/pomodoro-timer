@@ -29,9 +29,9 @@ const seedUsers = createSeedUsers( 2 );
 const populateUsers = async () => {
 	await User.deleteMany();
 
-	seedUsers.forEach( async seedUser => {
+	for ( const seedUser of seedUsers ) {
 		await new User( seedUser ).save();
-	} );
+	}
 };
 
 
