@@ -27,6 +27,26 @@ describe( 'GET/auth/user', () => {
 
 		expect( res.body.user ).toBeUndefined();
 	} );
+
+	//Если пользователь админ, то ему доступен список пользователей
+	it( 'Should return user list if user admin', async () => {
+		const res = await request( app )
+			.get( '/auth/user/all' )
+			.set( 'authorization', `Bearer ${seedUsers[ 0 ].token}` )
+			.expect( 200 );
+
+		expect( res.body.users.length ).toBeGreaterThan( 0 );
+	} );
+
+	//Если пользователь не админ, то список пользователей ему не доступен
+	it( 'Should return 403 if user is not admin', async () => {
+		const res = await request( app )
+			.get( '/auth/user/all' )
+			.set( 'authorization', `Bearer ${seedUsers[ 1 ].token}` )
+			.expect( 403 );
+
+		expect( res.body.users ).toBeUndefined();
+	} );
 } );
 
 describe( 'POST/auth/register', () => {

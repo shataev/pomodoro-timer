@@ -12,6 +12,6 @@ module.exports = async ( req, res, next ) => {
 		next();
 	} catch ( e ) {
 		//401 - Authorization error
-		return res.status( 401 ).send( { message: 'Authorization error' } );
+		res.status( 401 ).send( { message: 'Authorization error' } );
 	}
 };
