@@ -15,7 +15,8 @@ const createSeedUsers = ( count ) => {
 			name: faker.name.firstName(),
 			email: faker.internet.email(),
 			password: faker.internet.password(),
-			token: jwt.sign( { _id: userOneObjectId }, config.jwtSecret )
+			token: jwt.sign( { _id: userOneObjectId }, config.jwtSecret ),
+			role: !!userCount ? 'admin' : 'user'
 		};
 
 		seedUsers.push( seedUser );

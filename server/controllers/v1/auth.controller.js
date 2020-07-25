@@ -1,13 +1,14 @@
 const User = require( '@models/User' );
 
 exports.register = async ( req, res ) => {
-	const { name, email, password } = req.body;
+	const { name, email, password, role } = req.body;
 
 	try {
 		const user = await User.create( {
 			name,
 			email,
-			password
+			password,
+			role
 		} );
 
 		const token = await user.generateAuthToken();
@@ -16,8 +17,14 @@ exports.register = async ( req, res ) => {
 			.status( 201 )
 			.header( 'authorization', `Bearer ${token}` )
 			.json( user );
-	} catch ( e ) {
-		res.status( 400 ).send( { message: `Failed to register: ${e.errmsg}`, error: e } );
+	} catch ( err ) {
+		//Если ошибка возникает на стороне mongoose,
+		//создаем из нее стандартную
+		if ( err.name === 'MongoError' ) {
+			err = new Error( err.errmsg );
+		}
+
+		res.status( 400 ).send( { message: `Failed to register: ${err.message}`, error: err } );
 	}
 };
 

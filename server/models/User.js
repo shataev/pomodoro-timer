@@ -32,6 +32,11 @@ const UserSchema = new Mongoose.Schema( {
 	createdAt: {
 		type: Date
 	},
+	role: {
+		type: String,
+		enum: [ 'user', 'admin' ],
+		default: 'user'
+	},
 	updatedAt: {
 		type: Date
 	}
@@ -90,16 +95,24 @@ UserSchema.statics.findOneByCredentials = async function ( email, password ) {
 };
 
 UserSchema.pre( 'save', async function ( next ) {
-	if ( this.isModified( 'password' ) ) {
-		try {
+	try {
+		if ( this.isModified( 'password' ) ) {
 			this.password = await bcrypt.hash( this.password, 8 );
 			this.createdAt = new Date();
-			next();
-		} catch ( err ) {
-			next( err );
 		}
-	} else {
+
+
+		if ( this.isModified( 'role' ) && this.role === 'admin' ) {
+			const adminUsers = await this.constructor.find( { role: 'admin' } );
+
+			if ( adminUsers.length >= 1 ) {
+				next( new Error( 'Only one admin user can be added.' ) );
+			}
+		}
+
 		next();
+	} catch ( err ) {
+		next( err );
 	}
 } );
 
