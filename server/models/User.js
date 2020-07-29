@@ -40,6 +40,12 @@ const UserSchema = new Mongoose.Schema( {
 	updatedAt: {
 		type: Date
 	}
+}, {
+	toJSON: {
+		transform: ( doc, { _id, name, email, password, token, createdAt, role, updatedAt } ) => {
+			return { id: _id, name, email, password, token, createdAt, role, updatedAt };
+		}
+	}
 } );
 
 UserSchema.methods.generateAuthToken = async function () {

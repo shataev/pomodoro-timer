@@ -13,6 +13,7 @@ module.exports = {
 					"@server": "./server",
 					"@client": "./client",
 					"@store": "./client/store",
+					"@router": "./client/router",
 					"@components": "./client/components",
 					"@validators": "./server/validators",
 					"@middlewares": "./server/middlewares",

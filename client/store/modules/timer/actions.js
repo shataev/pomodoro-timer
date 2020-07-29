@@ -3,7 +3,7 @@ export const RESET_TIMER = 'RESET_TIMER';
 export const DECREMENT_TIME_LEFT = 'DECREMENT_TIME_LEFT';
 export const INCREMENT_TIMER_COUNT = 'INCREMENT_TIMER_COUNT';
 export const PLAY_SOUND = 'PLAY_SOUND';
-import { getAudioDataByUrl } from '../../helpers';
+import { getAudioDataByUrl } from '../../../helpers/index';
 
 export default {
 	//Запускает таймер и через секунду обновляет оставшееся до его окончания время.

@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Timer from '../pages/Timer';
-import Login from '../pages/Login';
-import Register from '../pages/Register';
+import Timer from '@pages/Timer';
+import Login from '@pages/Login';
+import Register from '@pages/Register';
+import Users from '@pages/Users';
 
 Vue.use( VueRouter );
 
@@ -18,6 +19,10 @@ const routes = [
 	{
 		path: '/register',
 		component: Register
+	},
+	{
+		path: '/users',
+		component: Users
 	}
 ];
 

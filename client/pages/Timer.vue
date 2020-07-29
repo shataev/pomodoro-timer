@@ -25,7 +25,7 @@
 	import Button from '@/components/Button';
 	import CompletedTimersCount from '@/components/CompletedTimersCount';
 	import { mapGetters, mapActions, mapState } from 'vuex';
-	import { START_TIMER, RESET_TIMER } from '../store/timer/actions';
+	import { START_TIMER, RESET_TIMER } from '@store/modules/timer/actions';
 
 	export default {
 		name: "Timer",

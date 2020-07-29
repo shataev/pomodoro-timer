@@ -1,9 +1,22 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import mutations from './mutations';
-import actions from './actions';
-import getters from './getters';
-import timer from './timer/index';
+import VuexORM from '@vuex-orm/core';
+import mutations from '@store/mutations';
+import actions from '@store/actions';
+import getters from '@store/getters';
+import timer from '@store/modules/timer';
+import User from '@store/models/User';
+
+
+//VuexORM database setting up
+
+const database = new VuexORM.Database();
+
+database.register( User );
+const VuexORMPlugin = VuexORM.install( database );
+
+//VuexORM database setting up. End
+
 
 Vue.use( Vuex );
 
@@ -16,7 +29,8 @@ export default new Vuex.Store( {
 	actions,
 	modules: {
 		timer
-	}
+	},
+	plugins: [ VuexORMPlugin ]
 } );
 
 

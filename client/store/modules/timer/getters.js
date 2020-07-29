@@ -1,4 +1,4 @@
-import { addStartingZero } from '../../helpers';
+import { addStartingZero } from '../../../helpers/index';
 
 export default {
 	getTimeLeftStr ( state ) {
