@@ -48,10 +48,11 @@ exports.getUser = async ( req, res ) => {
 };
 
 exports.getAllUsers = async ( req, res ) => {
+
 	try {
 		const users = await User.find({});
 
-		res.send( { users } );
+		res.send( users );
 
 	} catch ( err ) {
 		res.status( 400 ).send( err );

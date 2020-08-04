@@ -15,4 +15,12 @@ export default class User extends Model {
 			updatedAt: this.string( '' ),
 		};
 	}
+
+	static $fetch () {
+		return this.api().get('/auth/user/all');
+	}
+
+	static apiConfig = {
+		headers: { 'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjFiZGQzY2QxMTUxNzNlODQ5NTYxZmQiLCJpYXQiOjE1OTU2NjE2Mjh9.tKUp95d0cwer8CLlqDcWM9xBxmxclalxKGCPqqIT00w' },
+	}
 }

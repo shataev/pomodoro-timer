@@ -17,18 +17,11 @@
 	export default {
 		name: "Users",
 		computed: {
-			users: () => User.all(),
+			users: () => User.all()
 		},
-		created () {
-			User.create( {
-				data: {
-					id: 1,
-					name: 'Serega',
-					role: 'user'
-				}
-			} );
+		created: function () {
+			 User.$fetch();
 		}
-
 	};
 </script>
 
